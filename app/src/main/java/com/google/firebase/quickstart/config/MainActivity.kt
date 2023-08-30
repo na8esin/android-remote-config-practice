@@ -19,9 +19,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        binding.helloText.text = "hi! Michel."
-        val view = binding.root
-        setContentView(view)
 
         // [START get_remote_config_instance]
         val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
@@ -37,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         // [START set_default_values]
         remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
         // [END set_default_values]
+
+        binding.helloText.text = remoteConfig[WELCOME_MESSAGE_KEY].asString()
 
         // [START fetch_config_with_callback]
         remoteConfig.fetchAndActivate()
@@ -77,6 +76,9 @@ class MainActivity : AppCompatActivity() {
             }
         })
         // [END add_config_update_listener]
+
+        val view = binding.root
+        setContentView(view)
     }
 
     private fun displayWelcomeMessage() {
